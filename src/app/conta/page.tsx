@@ -40,15 +40,19 @@ export default async function Conta() {
   if (!user) {
     return (
       <Shell>
-        <main className="shell section account-page">
-          <p className="eyebrow dark">Minha conta</p>
+        <main className="auth-page account-access-page">
+          <div className="shell account-access-wrap">
+          <section className="auth-intro account-access-intro">
+            <p className="eyebrow dark">Minha conta</p>
           <h1>Sua área URBTRAIN</h1>
-          <div className="card account-empty">
+          </section>
+          <div className="auth-card account-access-card">
             <h2>Entre para acompanhar seu movimento.</h2>
             <p>Veja seus pedidos, dados de contato e atalhos da comunidade em um só lugar.</p>
             <Link className="button" href="/login">
               Entrar
             </Link>
+          </div>
           </div>
         </main>
       </Shell>
@@ -103,9 +107,6 @@ export default async function Conta() {
                 <p className="eyebrow dark">Histórico</p>
                 <h2>Seus pedidos</h2>
               </div>
-              <Link className="button account-secondary" href="/loja">
-                Ver loja
-              </Link>
             </div>
 
             {orders?.length ? (

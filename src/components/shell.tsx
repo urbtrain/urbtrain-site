@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { AccountSignOut } from "@/components/account-sign-out";
+import { AdminNavLink } from "@/components/admin-nav-link";
 
 const links = [
   { href: "/", label: "Inicio" },
@@ -54,6 +55,7 @@ export function Shell({ children }: { children: ReactNode }) {
                 {link.label}
               </Link>
             ))}
+            <AdminNavLink />
             <AccountSignOut />
           </nav>
         </div>

@@ -1,5 +1,6 @@
 :root {
   --lime: #f5c400;
+  --yellow: #f5c400;
 }
 
 .form-control:focus {
@@ -23,10 +24,64 @@
   transform: none;
 }
 
+.links .admin-nav-link {
+  background: var(--yellow);
+  color: #111;
+}
+
+.links .admin-nav-link:hover {
+  background: #fff0a6;
+}
+
+.account-admin-card {
+  display: none;
+}
+
+.account-shortcuts {
+  display: none;
+}
+
+.account-access-wrap {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(370px, 480px);
+  gap: 64px;
+  align-items: center;
+  padding: 70px 0;
+}
+
+.account-access-intro {
+  max-width: 530px;
+}
+
+.account-access-intro .eyebrow {
+  color: #d6d6d6;
+}
+
+.account-access-intro h1 {
+  font-size: clamp(4.3rem, 7vw, 7rem);
+}
+
+.account-access-card {
+  max-width: 480px;
+  margin: 0;
+}
+
 @media (max-width: 760px) {
   .links .account-signout {
     width: 100%;
     min-height: 42px;
+  }
+
+  .account-access-wrap {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 42px 0;
+  }
+
+  .account-access-intro h1 {
+    font-size: 4.5rem;
   }
 }
 
