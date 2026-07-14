@@ -1,2 +1,4 @@
-import Link from "next/link";import type{ReactNode}from"react";
-export function Shell({children}:{children:ReactNode}){return <><header className="nav"><div className="shell nav-in"><Link className="brand" href="/">URBTRAIN</Link><nav className="links"><Link href="/agenda">Agenda</Link><Link href="/loja">Loja</Link><Link href="/galeria">Galeria</Link><Link href="/conta">Conta</Link></nav></div></header>{children}<footer className="footer"><div className="shell">URBTRAIN - A RUA E NOSSA</div></footer></>}
+import Image from "next/image";
+import Link from "next/link";
+import type { ReactNode } from "react";
+export function Shell({ children }: { children: ReactNode }) { return <><header className="nav"><div className="shell nav-in"><Link className="brand" href="/"><Image src="/logo.png" alt="URBTRAIN" width={38} height={38} />URBTRAIN</Link><nav className="links"><Link href="/agenda">Agenda</Link><Link href="/loja">Loja</Link><Link href="/galeria">Galeria</Link><Link href="/conta">Conta</Link></nav></div></header>{children}<footer className="footer"><div className="shell">URBTRAIN — A RUA É NOSSA · Linhares, ES</div></footer></>; }

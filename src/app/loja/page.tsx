@@ -1,34 +1,3 @@
-﻿import Image from "next/image";
-import Link from "next/link";
-
-import { Shell } from "@/components/shell";
-
-const items = [
-  ["Camisa URBTRAIN", "produto-camisa.webp", "R$ 79,90"],
-  ["Bone URB", "produto-bone.webp", "R$ 49,90"],
-  ["Meias esportivas", "produto-meia.webp", "R$ 29,90"],
-  ["Top URBTRAIN", "produto-top.webp", "R$ 69,90"],
-] as const;
-
-export default function Loja() {
-  return (
-    <Shell>
-      <main className="shell section">
-        <p className="eyebrow">URB Shop</p>
-        <h1>VISTA O MOVIMENTO</h1>
-        <div className="grid">
-          {items.map(([name, image, price]) => (
-            <article className="card product" key={name}>
-              <Image src={`/${image}`} alt={name} width={800} height={800} sizes="(max-width: 700px) 100vw, 33vw" />
-              <h3>{name}</h3>
-              <p>{price}</p>
-              <Link className="button" href="/login">
-                Entrar para comprar
-              </Link>
-            </article>
-          ))}
-        </div>
-      </main>
-    </Shell>
-  );
-}
+"use client"; import Image from "next/image"; import { useMemo, useState } from "react"; import { Shell } from "@/components/shell"; import { money, products } from "@/lib/content";
+type Item={id:string;name:string;option:string;price:number;quantity:number};
+export default function Loja(){const[cart,setCart]=useState<Item[]>([]);const[options,setOptions]=useState<Record<string,string>>({});const total=useMemo(()=>cart.reduce((sum,item)=>sum+item.price*item.quantity,0),[cart]);function add(product:typeof products[number]){const option=options[product.id]||product.options[0];setCart(items=>{const existing=items.find(i=>i.id===product.id&&i.option===option);return existing?items.map(i=>i===existing?{...i,quantity:i.quantity+1}:i):[...items,{id:product.id,name:product.name,option,price:product.price,quantity:1}]})}function checkout(){const lines=cart.map(i=>`${i.quantity}x ${i.name} (${i.option}) — ${money(i.price*i.quantity)}`).join('%0A');window.open(`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER||'5527999999999'}?text=${encodeURIComponent(`Olá, URBTRAIN! Quero confirmar este pedido:%0A${lines}%0A%0ATotal: ${money(total)}`)}`,'_blank')}return <Shell><main><section className="page-hero"><div className="shell"><p className="eyebrow">URB Shop</p><h1>Vista o movimento</h1></div></section><section className="section"><div className="shell"><div className="grid">{products.map(product=><article className="card product" key={product.id}><Image src={product.image} alt={product.name} width={800} height={800}/><div className="product-info"><p className="eyebrow dark">{product.category}</p><h3>{product.name}</h3><strong>{money(product.price)}</strong><select value={options[product.id]||product.options[0]} onChange={e=>setOptions({...options,[product.id]:e.target.value})}>{product.options.map(option=><option key={option}>{option}</option>)}</select><button className="button" style={{width:'100%',marginTop:12}} onClick={()=>add(product)}>Adicionar</button></div></article>)}</div>{cart.length>0&&<section className="card" style={{marginTop:28}}><h2>Seu pedido</h2>{cart.map(item=><div className="cart-row" key={item.id+item.option}><span>{item.quantity}x {item.name} · {item.option}</span><strong>{money(item.price*item.quantity)}</strong></div>)}<div className="cart-row"><strong>Total</strong><strong>{money(total)}</strong></div><button className="button" onClick={checkout}>Finalizar no WhatsApp</button><p className="muted">Você confirma pagamento e entrega diretamente com a equipe.</p></section>}</div></section></main></Shell>}
