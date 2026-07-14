@@ -1,0 +1,7 @@
+:root {
+  --lime: #f5c400;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 3px rgba(245, 196, 0, 0.45);
+}
