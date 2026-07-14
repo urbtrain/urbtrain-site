@@ -5,3 +5,27 @@
 .form-control:focus {
   box-shadow: 0 0 0 3px rgba(245, 196, 0, 0.45);
 }
+
+.links .account-signout {
+  min-width: 0;
+  min-height: 0;
+  padding: 9px 12px;
+  border: 1px solid #7a1d2d;
+  border-radius: 99px;
+  background: #7a1d2d;
+  color: #fff;
+}
+
+.links .account-signout:hover:not(:disabled) {
+  background: #5d1320;
+  border-color: #5d1320;
+  box-shadow: none;
+  transform: none;
+}
+
+@media (max-width: 760px) {
+  .links .account-signout {
+    width: 100%;
+    min-height: 42px;
+  }
+}
