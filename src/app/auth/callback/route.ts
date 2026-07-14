@@ -1,0 +1,1 @@
+import{NextResponse}from"next/server";import{serverSupabase,configured}from"@/lib/supabase-server";export async function GET(request:Request){const url=new URL(request.url);const code=url.searchParams.get("code");if(configured&&code){const supabase=await serverSupabase();await supabase.auth.exchangeCodeForSession(code)}return NextResponse.redirect(new URL("/conta",url.origin))}

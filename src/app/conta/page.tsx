@@ -1,0 +1,1 @@
+import{Shell}from"@/components/shell";import Link from"next/link";export default function Conta(){return <Shell><main className="shell section"><p className="eyebrow">Minha conta</p><h1>SEUS PEDIDOS</h1><div className="card"><p>Entre para acompanhar seus pedidos, status e dados de entrega.</p><Link className="button" href="/login">Entrar</Link></div></main></Shell>}

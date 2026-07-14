@@ -1,0 +1,10 @@
+create schema if not exists private;
+revoke all on schema private from public;
+alter function public.handle_new_user() set schema private;
+alter function public.is_admin() set schema private;
+revoke all on function private.handle_new_user() from public, anon, authenticated;
+revoke all on function private.is_admin() from public, anon, authenticated;
+create index if not exists orders_user_id_idx on public.orders(user_id);
+create index if not exists order_items_order_id_idx on public.order_items(order_id);
+update storage.buckets set public=false where id='public-media';
+drop policy if exists "public media read" on storage.objects;
