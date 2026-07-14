@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AccountSignOut } from "@/components/account-sign-out";
 import { Shell } from "@/components/shell";
 import { money } from "@/lib/content";
 import { configured, serverSupabase } from "@/lib/supabase-server";
@@ -95,7 +94,6 @@ export default async function Conta() {
               <p className="muted">{user.email}</p>
             </div>
           </div>
-          <AccountSignOut />
         </section>
 
         <section className="account-layout">
