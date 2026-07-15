@@ -86,8 +86,18 @@ export default async function Conta() {
 
   return (
     <Shell>
-      <main className="shell section account-page">
-        <section className="account-hero">
+      <main className="account-page">
+        <section className="page-hero">
+          <div className="shell">
+            <p className="eyebrow">Minha conta</p>
+            <h1>Seu espaço URBTRAIN</h1>
+            <p>Pedidos, dados e sua conexão com a comunidade.</p>
+          </div>
+        </section>
+
+        <section className="section account-content">
+          <div className="shell">
+            <section className="account-hero">
           <div className="account-identity">
             <div className="account-avatar" aria-hidden="true">
               {avatarUrl ? <Image src={avatarUrl} alt="" width={96} height={96} /> : <span>{initials}</span>}
@@ -193,6 +203,8 @@ export default async function Conta() {
               </article>
             )}
           </aside>
+            </section>
+          </div>
         </section>
       </main>
     </Shell>
