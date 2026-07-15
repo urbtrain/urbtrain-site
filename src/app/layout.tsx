@@ -1,15 +1,19 @@
 import "./globals.css";
 import "./theme.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
-  title: "URBTRAIN | A rua é nossa",
+  title: "URBTRAIN | A rua \u00e9 nossa",
   description: "Corrida, comunidade e impacto social em Linhares.",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: [{ url: "/icon-192.png", type: "image/png", sizes: "192x192" }],
+    shortcut: "/icon-192.png",
+    apple: "/icon-192.png",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#090909",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
