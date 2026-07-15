@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./theme.css";
+import "./admin-dashboard.css";
 import "./splash.css";
 import type { Metadata, Viewport } from "next";
 import { AppLaunchScreen } from "@/components/app-launch-screen";
