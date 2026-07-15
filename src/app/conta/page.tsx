@@ -103,7 +103,7 @@ export default async function Conta() {
               {avatarUrl ? <Image src={avatarUrl} alt="" width={96} height={96} /> : <span>{initials}</span>}
             </div>
             <div>
-              <p className="eyebrow dark">Minha conta</p>
+              <p className="eyebrow dark">Perfil</p>
               <h1>{displayName}</h1>
               <p className="muted">{user.email}</p>
             </div>
