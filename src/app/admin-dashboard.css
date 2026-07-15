@@ -1,0 +1,58 @@
+/* Administrative dashboard refinements */
+.app-frame{display:flex;flex-direction:column}
+.app-frame>main{flex:1}
+
+.admin-module-card.is-attention{border-color:#111;background:#111;color:#fff}
+.admin-module-card.is-attention span,.admin-module-card.is-attention small{color:#d9d9d9}
+.admin-module-card.is-attention b{color:var(--yellow)}
+
+@media(max-width:760px){
+  .admin-page{gap:20px;padding-top:78px;padding-bottom:92px}
+
+  .admin-hero{
+    top:64px;
+    min-height:56px;
+    align-items:center;
+    margin:0 -16px;
+    padding:10px 16px;
+    border-top:1px solid var(--line);
+  }
+
+  .admin-hero h1{
+    max-width:calc(100vw - 158px);
+    overflow:hidden;
+    font-size:2rem;
+    line-height:1;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .admin-mobile-status{flex:0 0 auto}
+  .admin-module-nav{
+    top:120px;
+    width:calc(100% + 32px);
+    margin:-20px -16px 2px;
+    padding:10px 16px 11px;
+    gap:8px;
+    scroll-snap-type:x proximity;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 42px),transparent);
+    mask-image:linear-gradient(90deg,#000 calc(100% - 42px),transparent);
+  }
+
+  .admin-module-nav a{scroll-snap-align:start}
+  .admin-hub{gap:12px}
+
+  .admin-module-card{
+    min-height:156px;
+    padding:16px;
+    border-radius:12px;
+    box-shadow:0 5px 18px rgba(0,0,0,.035);
+  }
+
+  .admin-module-card h2{margin:8px 0 4px;font-size:1.5rem}
+  .admin-module-card strong{font-size:3rem}
+  .admin-module-card b{margin-top:8px}
+  .admin-module-card:last-child{min-height:132px}
+
+  .admin-module-card:active{transform:scale(.985)}
+}
