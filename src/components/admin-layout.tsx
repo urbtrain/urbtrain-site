@@ -8,6 +8,12 @@ const modules = [
   ["/admin/pedidos", "Pedidos"], ["/admin/loja", "Loja e estoque"], ["/admin/galeria", "Galeria"],
 ] as const;
 
+const quickActions: Record<string, { label: string; target: string } | undefined> = {
+  "/admin/agenda": { label: "Novo treino", target: "#novo" },
+  "/admin/loja": { label: "Novo produto", target: "#novo" },
+  "/admin/galeria": { label: "Enviar imagem", target: "#novo" },
+};
+
 export function AdminGate({ access }: { access: AdminAccess }) {
   if (access.state === "admin") return null;
   const copy = access.state === "unconfigured" ? ["Painel", "Configure o Supabase para ativar o painel."] : access.state === "anonymous" ? ["Acesso restrito", "Entre com uma conta de administrador."] : ["Acesso restrito", "Esta área é exclusiva para administradores da URBTRAIN."];
@@ -15,5 +21,6 @@ export function AdminGate({ access }: { access: AdminAccess }) {
 }
 
 export function AdminLayout({ active, title, eyebrow = "Administração", children }: { active: string; title: string; eyebrow?: string; children: ReactNode }) {
-  return <Shell><main className="shell section admin-page"><header className="admin-hero"><div><p className="eyebrow dark">{eyebrow}</p><h1>{title}</h1></div></header><nav className="admin-nav admin-module-nav" aria-label="Módulos administrativos">{modules.map(([href, label]) => <Link key={href} href={href} aria-current={active === href ? "page" : undefined} className={active === href ? "active" : ""}>{label}</Link>)}</nav>{active !== "/admin" && <Link className="admin-back" href="/admin">← Voltar ao Painel</Link>}{children}</main></Shell>;
+  const quickAction = quickActions[active];
+  return <Shell><main className="shell section admin-page"><header className="admin-hero"><div><p className="eyebrow dark">{eyebrow}</p><h1>{title}</h1></div><span className="admin-mobile-status">Operação</span></header><nav className="admin-nav admin-module-nav" aria-label="Módulos administrativos">{modules.map(([href, label]) => <Link key={href} href={href} aria-current={active === href ? "page" : undefined} className={active === href ? "active" : ""}>{label}</Link>)}</nav>{active !== "/admin" && <Link className="admin-back" href="/admin">← Voltar ao Painel</Link>}{children}{quickAction && <a className="admin-mobile-fab" href={quickAction.target}><span>+</span>{quickAction.label}</a>}</main></Shell>;
 }
