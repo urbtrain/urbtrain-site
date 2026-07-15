@@ -12,5 +12,10 @@ export function AppLaunchScreen() {
   }, []);
 
   if (!visible) return null;
-  return <div className="app-launch-screen" role="presentation" aria-hidden="true"><Image src="/Splash-Mobile.png" alt="" fill priority sizes="100vw"/></div>;
+
+  return (
+    <div className="app-launch-screen" role="presentation" aria-hidden="true">
+      <Image src="/urbtrain-app-icon.svg" alt="" width={208} height={208} priority />
+    </div>
+  );
 }
