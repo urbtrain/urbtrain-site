@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { browserSupabase, configured } from "@/lib/supabase-browser";
 
@@ -35,6 +35,8 @@ export function AppSidebar({ minimal = false }: { minimal?: boolean }) {
   const [hovered, setHovered] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [open, setOpen] = useState(false);
+  const [hideMobileButton, setHideMobileButton] = useState(false);
+  const lastScrollY = useRef(0);
   const [account, setAccount] = useState<{ name: string; avatar?: string; admin: boolean } | null>(null);
 
   useEffect(() => {
@@ -45,6 +47,16 @@ export function AppSidebar({ minimal = false }: { minimal?: boolean }) {
     return () => media.removeEventListener("change", sync);
   }, []);
 
+  useEffect(() => {
+    if (!mobile || open) return;
+    function onScroll() {
+      const current = window.scrollY;
+      setHideMobileButton(current > 80 && current > lastScrollY.current);
+      lastScrollY.current = current;
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mobile, open]);
   useEffect(() => {
     if (!configured || minimal) return;
     let alive = true;
@@ -81,7 +93,7 @@ export function AppSidebar({ minimal = false }: { minimal?: boolean }) {
   const controlLabel = mobile ? "Fechar navega\u00e7\u00e3o" : pinned ? "Soltar menu" : "Fixar menu";
 
   return <>
-    <button className="mobile-menu-button" type="button" aria-label="Abrir navega\u00e7\u00e3o" aria-expanded={open} onClick={() => setOpen(true)}><MenuStateIcon pinned={false} /></button>
+    <button className={`mobile-menu-button ${hideMobileButton ? "is-hidden" : ""}`} type="button" aria-label="Abrir navega\u00e7\u00e3o" aria-expanded={open} onClick={() => setOpen(true)}><MenuStateIcon pinned={false} /></button>
     {open && <button className="sidebar-backdrop" type="button" aria-label="Fechar navega\u00e7\u00e3o" onClick={() => setOpen(false)} />}
     <aside className="app-sidebar" data-expanded={expanded} onMouseEnter={() => !mobile && setHovered(true)} onMouseLeave={() => !mobile && setHovered(false)} aria-label="Navega\u00e7\u00e3o principal">
       <div className="sidebar-top">
