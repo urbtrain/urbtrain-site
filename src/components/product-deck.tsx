@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { money } from "@/lib/content";
+import { ProductImageCarousel } from "@/components/product-image-carousel";
 
 type Product = {
   id: string;
@@ -11,6 +11,7 @@ type Product = {
   category: string;
   price: number;
   image: string;
+  images?: readonly string[];
 };
 
 export function ProductDeck({ products }: { products: readonly Product[] }) {
@@ -45,7 +46,7 @@ export function ProductDeck({ products }: { products: readonly Product[] }) {
       <div className="product-deck-track" ref={trackRef} onScroll={updateActive}>
         {products.map((product) => (
           <article className="card product" key={product.id}>
-            <Image src={product.image} alt={product.name} width={800} height={800} />
+            <ProductImageCarousel image={product.image} images={product.images} alt={product.name} />
             <div className="product-info">
               <p className="eyebrow dark">{product.category}</p>
               <h3>{product.name}</h3>
