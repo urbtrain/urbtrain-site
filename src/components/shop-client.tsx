@@ -76,7 +76,7 @@ export function ShopClient({ products }: { products: ShopProduct[] }) {
         notes,
       });
       if ("error" in result) {
-        setMessage(result.error);
+        setMessage(result.error || "Não foi possível finalizar o pedido.");
         return;
       }
       setCart([]);
