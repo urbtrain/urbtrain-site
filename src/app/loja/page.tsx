@@ -1,3 +1,34 @@
-"use client"; import { useMemo, useState } from "react"; import { ProductImageCarousel } from "@/components/product-image-carousel"; import { Shell } from "@/components/shell"; import { money, products } from "@/lib/content";
-type Item={id:string;name:string;option:string;price:number;quantity:number};
-export default function Loja(){const[cart,setCart]=useState<Item[]>([]);const[options,setOptions]=useState<Record<string,string>>({});const total=useMemo(()=>cart.reduce((sum,item)=>sum+item.price*item.quantity,0),[cart]);function add(product:typeof products[number]){const option=options[product.id]||product.options[0];setCart(items=>{const existing=items.find(i=>i.id===product.id&&i.option===option);return existing?items.map(i=>i===existing?{...i,quantity:i.quantity+1}:i):[...items,{id:product.id,name:product.name,option,price:product.price,quantity:1}]})}function checkout(){const lines=cart.map(i=>`${i.quantity}x ${i.name} (${i.option}) — ${money(i.price*i.quantity)}`).join('%0A');window.open(`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER||'5527999999999'}?text=${encodeURIComponent(`Olá, URBTRAIN! Quero confirmar este pedido:%0A${lines}%0A%0ATotal: ${money(total)}`)}`,'_blank')}return <Shell><main><section className="page-hero"><div className="shell"><p className="eyebrow">URB Shop</p><h1>Vista o movimento</h1></div></section><section className="section"><div className="shell"><div className="grid">{products.map(product=><article className="card product" key={product.id}><ProductImageCarousel image={product.image} images={product.images} alt={product.name}/><div className="product-info"><p className="eyebrow dark">{product.category}</p><h3>{product.name}</h3><strong>{money(product.price)}</strong><select value={options[product.id]||product.options[0]} onChange={e=>setOptions({...options,[product.id]:e.target.value})}>{product.options.map(option=><option key={option}>{option}</option>)}</select><button className="button" style={{width:'100%',marginTop:12}} onClick={()=>add(product)}>Adicionar</button></div></article>)}</div>{cart.length>0&&<section className="card" style={{marginTop:28}}><h2>Seu pedido</h2>{cart.map(item=><div className="cart-row" key={item.id+item.option}><span>{item.quantity}x {item.name} · {item.option}</span><strong>{money(item.price*item.quantity)}</strong></div>)}<div className="cart-row"><strong>Total</strong><strong>{money(total)}</strong></div><button className="button" onClick={checkout}>Finalizar no WhatsApp</button><p className="muted">Você confirma pagamento e entrega diretamente com a equipe.</p></section>}</div></section></main></Shell>}
+import { Shell } from "@/components/shell";
+import { ShopClient, type ShopProduct } from "@/components/shop-client";
+import { configured, serverSupabase } from "@/lib/supabase-server";
+
+export default async function Loja() {
+  let products: ShopProduct[] = [];
+  if (configured) {
+    const supabase = await serverSupabase();
+    const { data } = await supabase
+      .from("products")
+      .select("id,name,category,description,image_path,price_cents,product_variants(id,label,stock_quantity,reserved_quantity,active)")
+      .eq("active", true)
+      .order("created_at", { ascending: false });
+
+    products = (data ?? []).map((product) => ({
+      id: product.id,
+      name: product.name,
+      category: product.category || "URB Shop",
+      description: product.description,
+      imagePath: product.image_path,
+      priceCents: product.price_cents,
+      variants: (product.product_variants ?? [])
+        .filter((variant) => variant.active)
+        .map((variant) => ({ id: variant.id, label: variant.label, stock: variant.stock_quantity, reserved: variant.reserved_quantity })),
+    })).filter((product) => product.variants.length);
+  }
+
+  return <Shell><main>
+    <section className="page-hero"><div className="shell"><p className="eyebrow">URB Shop</p><h1>Vista o movimento</h1><p>Produtos reais, estoque atualizado e reserva pelo site.</p></div></section>
+    <section className="section"><div className="shell">
+      {!configured ? <div className="notice">A loja está sendo configurada.</div> : <ShopClient products={products} />}
+    </div></section>
+  </main></Shell>;
+}
